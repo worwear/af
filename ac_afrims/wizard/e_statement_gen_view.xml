@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+<record id="view_e_system_gen_form" model="ir.ui.view">
+    <field name="name">e.statement.gen.form</field>
+    <field name="model">e.statement.gen</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Generate Data">
+            <group colspan="4" col="4">
+            <field name="fy_id"/>
+            <newline/>
+            </group>
+            <button name="do_clear" string="Clear" type="object" icon="gtk-convert"/>
+            <button name="generate" string="Generate" type="object" icon="gtk-ok"/>
+        </form>
+    </field>
+</record>
+
+<record id="action_view_e_system_gen" model="ir.actions.act_window">
+    <field name="name">Statement Generate</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">e.statement.gen</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<menuitem
+    action="action_view_e_system_gen"
+    id="menu_view_e_statement_gen"
+    parent="menu_e_statement"
+    sequence="19"/>
+</data>
+</openerp>
+
+<!-- vim: set fdm=marker : -->

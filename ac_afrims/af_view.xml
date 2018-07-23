@@ -1,0 +1,2572 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+<!--{{{ wizards -->
+<wizard id="wiz_rem_tmpl" model="tdy.request" name="rem.tmpl" string="Add remarks from templates" menu="False"/>
+
+<wizard id="wiz_ship_make_pr" model="shipping" name="ship.make.pr" string="Make PR for shipping"/>
+
+<wizard id="wiz_wkf_choice" model="wkf.decision" name="wkf.choice" string="Make Choice"/>
+
+<wizard id="wiz_approv_req" model="wkf.decision" name="approv.req" string="Send new request"/>
+
+<wizard id="wiz_merge_pr" model="purchase.request" name="merge.pr" string="Merge PRs" multi="True"/>
+<!--}}}-->
+
+<!--{{{ reports -->
+<report id="rep_wkf" string="Print Workflow" name="wkf" model="ir.model"/>
+
+<report id="rep_form_3953" string="DA Form 3953" name="form.3953" model="purchase.request"/>
+
+<report id="rep_form_3161" string="DA Form 3161" name="form.3161" model="purchase.request"/>
+
+<report id="rep_pr_memo" string="PR Memo" name="pr.memo" model="purchase.request"/>
+
+<report id="rep_form_1610" string="DD Form 1610" name="form.1610" model="tdy.request"/>
+
+<report id="rep_tdy_memo" string="TDY Memo" name="tdy.memo" model="tdy.request"/>
+<!--}}}-->
+
+<!--{{{ views -->
+<!--{{{ approved.budget.summary -->
+<record id="view_approved_budget_summary_tree" model="ir.ui.view">
+    <field name="name">approved.budget.summary.tree</field>
+    <field name="model">approved.budget.summary</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Approved Budget Summary">
+            <field name="category"/>
+            <field name="name"/>
+            <field name="funding_id" />
+            <field name="project_id"/>
+            <field name="fte" sum="total" />
+            <field name="calculated_month"/>
+            <field name="period_start"/>
+            <field name="period_end"/>
+            <field name="usd_text" sum="total" />
+            <field name="remark1"/>
+            <field name="remark2"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_approved_budget_summary_form" model="ir.ui.view">
+    <field name="name">approved.budget.summary.form</field>
+    <field name="model">approved.budget.summary</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Approved Budget Summary">
+            <field name="category"/>
+            <field name="name"/>
+            <field name="funding_id" />
+            <field name="project_id"/>
+            <field name="fte"/>
+            <field name="calculated_month"/>
+            <field name="period_start"/>
+            <field name="period_end"/>
+            <field name="usd_text"/>
+            <field name="remark1"/>
+            <field name="remark2"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ budget.summary -->
+<record id="view_budget_summary_tree" model="ir.ui.view">
+    <field name="name">budget.summary.tree</field>
+    <field name="model">budget.summary</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Budget Summary">
+            <field name="name"/>
+            <field name="amount_usd" sum="Totals"/>
+            <field name="amount_other" sum="Totals"/>
+            <field name="currency"/>
+            <field name="formular_eor"/>
+            <field name="formular_desc"/>
+            <field name="formular_pr_type"/>
+            <field name="from_hq_budget"/>
+            <field name="fy_update_date"/>
+            <field name="note"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_budget_summary_form" model="ir.ui.view">
+    <field name="name">budget.summary.form</field>
+    <field name="model">budget.summary</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Budget Summary">
+            <field name="code"/>
+            <field name="name"/>
+            <field name="formular_eor"/>
+            <field name="formular_desc"/>
+            <field name="formular_pr_type"/>
+            <field name="amount_usd"/>
+            <field name="amount_other" sum="Totals"/>
+            <field name="currency"/>
+            <field name="from_hq_budget"/>
+            <field name="fy_update_date" readonly="True"/>
+            <field name="note"/>
+            <field name="active"/>
+        </form>
+    </field>
+
+</record>
+<!--}}}-->
+
+<!--{{{ apc.fiscalyear -->
+<record id="view_apc_fy_tree" model="ir.ui.view">
+    <field name="name">apc.fy.tree</field>
+    <field name="model">apc.fiscalyear</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Fiscal Year">
+            <field name="name"/>
+            <field name="date_from"/>
+            <field name="date_to"/>
+            <field name="active"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_apc_fy_form" model="ir.ui.view">
+    <field name="name">apc.fy.form</field>
+    <field name="model">apc.fiscalyear</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Fiscal Year">
+            <field name="name"/>
+            <field name="date_from"/>
+            <field name="date_to"/>
+            <field name="active"/>
+        </form>
+    </field>
+</record>
+
+<!--}}}-->
+
+<!--{{{ apc -->
+<record id="view_apc_tree" model="ir.ui.view">
+    <field name="name">apc.tree</field>
+    <field name="model">apc</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="APC">
+            <field name="name"/>
+            <field name="sequence"/>
+            <field name="code"/>
+            <field name="category_id"/>
+            <field name="fiscalyear_id"/>
+            <field name="target_e" sum="total"/>
+            <field name="target_hq" sum="total"/>
+            <field name="commit_e" sum="total"/>
+            <field name="transferring" sum="total"/>
+            <field name="commit_hq" sum="total"/>
+            <field name="curbal_e" sum="total"/>
+            <field name="curbal_hq" sum="total"/>
+            <field name="note" />
+            <field name="project_apc_list" />
+            <field name="department_id"/>
+            <field name="active"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_apc_form" model="ir.ui.view">
+    <field name="name">apc.form</field>
+    <field name="model">apc</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="APC">
+            <field name="sequence"/>
+            <field name="name"/>
+            <field name="code"/>
+            <field name="category_id"/>
+            <field name="fiscalyear_id"/>
+            <field name="allot_no"/>
+            <field name="amsco"/>
+            <field name="station_no"/>
+            <field name="department_id"/>
+            <field name="active"/>
+            <field name="show_detail" invisible="1"/>
+            <group colspan="4">
+                <notebook>
+                    <page string="General">
+                        <separator colspan="4"/>
+                        <field name="target_adjusts" colspan="4" nolabel="1">
+                            <tree string="Target Adjustments" editable="bottom">
+                                <field name="sequence"/>
+                                <field name="name"/>
+                                <field name="adjust" sum="Adjust"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                        <field name="target_e"/>
+                        <field name="curbal_e"/>
+                        <separator colspan="4"/>
+                        <field name="target_hq_adjusts" colspan="4" nolabel="1">
+                            <tree string="Target HQ Adjustments" editable="bottom">
+                                <field name="sequence"/>
+                                <field name="name"/>
+                                <field name="adjust" sum="Adjust"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                        <field name="target_hq"/>
+                        <field name="curbal_hq"/>
+                        <field name="projects" colspan="4" nolabel="1">
+                            <tree string="Project Allocation" editable="bottom">
+                                <field name="project_id"/>
+                                <field name="target"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Remark I">
+                        <field name="note" colspan="4" nolabel="1"/>
+                    </page>
+                    <page string="Remark II">
+                        <field name="note2" colspan="4" nolabel="1"/>
+                    </page>
+                </notebook>
+            </group>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ apc.entry -->
+<record id="view_apc_entry_tree" model="ir.ui.view">
+    <field name="name">apc.entry.tree</field>
+    <field name="model">apc.entry</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="APC Entries">
+            <field name="apc_id"/>
+            <field name="date"/>
+            <field name="doc_no"/>
+            <field name="type"/>
+            <field name="sequence"/>
+            <field name="name"/>
+            <field name="eor_id"/>
+            <field name="commit" sum="commit"/>
+            <field name="used" sum="used"/>
+            <field name="voucher"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_apc_entry_form" model="ir.ui.view">
+    <field name="name">apc.entry.form</field>
+    <field name="model">apc.entry</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="APC Entry">
+            <field name="sequence"/>
+            <field name="pr_id" readonly="1"/>
+            <field name="tdy_id" readonly="1"/>
+            <field name="apc_id"/>
+            <field name="date"/>
+            <field name="name"/>
+            <field name="eor_id"/>
+            <field name="commit"/>
+            <field name="used"/>
+            <field name="voucher"/>
+            <separator string="Extra Notes" colspan="4"/>
+            <field name="notes" colspan="4"/>
+            <field name="notes2" colspan="4"/>
+            <field name="notes3" colspan="4"/>
+            <separator string="Department Info"/>
+            <field name="projects" colspan="2" nolabel="1">
+                <tree string="Projects" editable="bottom">
+                    <field name="project_id"/>
+                    <field name="percent"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+            <field name="sites" colspan="2" nolabel="1">
+                <tree string="Sites" editable="bottom">
+                    <field name="site_id"/>
+                    <field name="percent"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+            <button name="update_dept_info" type="object" string="Update Dept Info" colspan="2"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ purchase.request -->
+{{{ pr.type
+<record id="view_pr_type_tree" model="ir.ui.view">
+    <field name="name">pr.type.tree</field>
+    <field name="model">pr.type</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Purchase requests">
+            <field name="name"/>
+            <field name="active"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_pr_type_form" model="ir.ui.view">
+    <field name="name">pr.type.form</field>
+    <field name="model">pr.type</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Purchase requests">
+            <field name="name"/>
+            <field name="active"/>
+        </form>
+    </field>
+</record>
+
+}}}
+
+<record id="view_pr_tree" model="ir.ui.view">
+    <field name="name">pr.tree</field>
+    <field name="model">purchase.request</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Purchase requests">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="requester_id"/>
+            <field name="department_id"/>
+            <field name="section_id"/>
+            <field name="type"/>
+            <field name="currency_id" invisible="1"/>
+            <field name="total" sum="total"/>
+            <field name="doc_no"/>
+            <field name="po_no"/>
+            <field name="invoice_ref"/>
+            <field name="amount_usd" sum="total"/>
+            <!--<field name="supplier_id"/>
+            <field name="supplier_fname"/>-->
+            <field name="supplier_code" />
+            <field name="state"/>
+            <group colspan="4" col="40" name="buttons"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_pr_form" model="ir.ui.view">
+    <field name="name">pr.form</field>
+    <field name="model">purchase.request</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Purchase request">
+            <field name="fields_editable" invisible="1"/>
+            <field name="name" groups_edit="ac_afrims.group_purch_admin"/>
+            <field name="date" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','date')]}"/>
+            <field name="type" groups_edit="ac_afrims.group_purch_admin"/>
+            <field name="requester_id" groups_edit="ac_afrims.group_purch_admin" on_change="onchange_requester(requester_id)" attrs="{'readonly':[('fields_editable','not contains','requester_id')]}"/>
+            <field name="department_id" groups_edit="ac_afrims.group_purch_admin" readonly="True" attrs="{'readonly':[('fields_editable','not contains','department_id')]}"/>
+            <field name="section_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','section_id')]}"/>
+            <field name="currency_id" attrs="{'readonly':[('fields_editable','not contains','currency_id')]}" invisible="1" />
+            <field name="supplier_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','supplier_id')]}"/>
+            <group colspan="2" col="4">
+                <field name="doc_no" groups_edit="ac_afrims.group_purch_admin"/>
+                <field name="doc_no_force" groups_edit="ac_afrims.group_purch_admin"/>
+            </group>
+            <field name="po_no" groups_edit="ac_afrims.group_purch_admin"/>
+            <group colspan="2" col="4">
+                <field name="invoice_ref" groups_edit="ac_afrims.group_purch_admin"/>
+                <field name="amount_usd" groups_edit="ac_afrims.group_purch_admin"/>
+            </group>
+            <notebook colspan="4">
+                <page string="General">
+                    <separator colspan="4" string="Main Description"/>
+                    <field name="description" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','description')]}"/>
+                    <separator colspan="4" string="Main Purpose"/>
+                    <field name="purpose" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','purpose')]}"/>
+                    <field name="lines" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','lines')]}"  context="{'currency_id':parent.currency_id}">
+                        <tree string="Purchase request lines">
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="project_apc_list"/>
+                            <field name="notes"/>
+                            <field name="eor_id"/>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+                            <field name="price_unit"/>
+                            <field name="subtotal"/>
+                            <field name="currency_id"/>
+                            <field name="received"/>
+                        </tree>
+                        <form string="Purchase request line">
+                            <notebook colspan="4">
+                                <page string="General">
+                                    <field name="sequence"/>
+                                    <newline/>
+                                    <field name="product_id" on_change="onchange_product(product_id,parent.supplier_id)"/>
+                                    <field name="name"/>
+                                    <field name="qty" on_change="onchange_qty(product_id,parent.supplier_id,qty,uom_id)"/>
+                                    <field name="uom_id" on_change="onchange_qty(product_id,parent.supplier_id,qty,uom_id)"/>
+                                    <button name="update_product_info" type="object" string="Get Product info" groups_edit="ac_afrims.group_purch_admin" colspan="2" icon="gtk-ok"/>
+                                    <field name="price_unit"/>
+                                    <field name="currency_id"/>
+                                    <field name="subtotal"/>
+                                    <separator string="Item Purpose" colspan="4"/>
+                                    <field name="purpose" colspan="4" nolabel="1"/>
+                                    <field name="eor_id"/>
+                                    <field name="projects" colspan="4" nolabel="1"
+                                    default_get="{'projects':projects,'requester':parent.requester_id,'pr':parent.name}">
+                                        <tree string="Projects" editable="bottom">
+                                            <field name="project_id"/>
+                                            <field name="site_id" groups_edit="ac_afrims.group_purch_admin"/>
+                                            <field name="percent"/>
+                                        </tree>
+                                    </field>
+                                    <label colspan="4" string="If you leave this list empty, the same projects as the last item will be selected."/>
+                                </page>
+                                <page string="Notes">
+                                    <separator string="Notes" colspan="4"/>
+                                    <field name="notes" colspan="4" nolabel="1"/>
+                                </page>
+                            </notebook>
+                        </form>
+                    </field>
+                    <field name="total"/>
+                    <field name="state" groups_edit="ac_afrims.group_purch_admin"/>
+                    <separator string="Approval"/>
+                    <field name="thai_super_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','thai_super_id')]}"/>
+                    <field name="mil_super_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','mil_super_id')]}"/>
+                    <field name="purch_admin_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','purch_admin_id')]}"/>
+                    <field name="init_officer_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','init_officer_id')]}"/>
+                    <field name="supply_officer_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','supply_officer_id')]}"/>
+                    <field name="cert_officer_id" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','cert_officer_id')]}"/>
+                    <newline/>
+                    <group colspan="4" col="40" name="buttons"/>
+                </page>
+                <page string="Funding">
+                    <field name="apcs" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','apcs')]}" context="{'total':total,'currency_id':currency_id}">
+                        <tree string="APCs" editable="bottom">
+                            <field name="apc_id"/> <!-- XXX: domain with parent make tree missing when search -->
+                            <field name="amount"/>
+                            <field name="amount_usd"/>
+                            <field name="sponsor_id"/>
+                            <field name="notes"/>
+                        </tree>
+                        <form string="APC">
+                            <field name="apc_id" domain="[('department_id','=',parent.deparment_id)]"/>
+                            <field name="amount"/>
+                            <field name="amount_usd"/>
+                            <field name="sponsor_id"/>
+                            <field name="notes"/>
+                        </form>
+                    </field>
+                    <separator string="Recommended APCs" colspan="4"/>
+                    <field name="rec_apcs" colspan="4" nolabel="1"/>
+                </page>
+                <page string="Remarks">
+                    <field name="remarks" colspan="4" nolabel="1">
+                        <tree string="Remarks">
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <field name="remark"/>
+                        </tree>
+                        <form string="Remark">
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <separator string="Remark" colspan="4"/>
+                            <field name="remark" colspan="4" nolabel="1"/>
+                        </form>
+                    </field>
+                    <separator string="Extra Notes" colspan="4"/>
+                    <field name="notes" colspan="4"/>
+                    <field name="notes2" colspan="4"/>
+                    <field name="notes3" colspan="4"/>
+                </page>
+                <page string="Receiving">
+                    <field name="received_items" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','received_items')]}">
+                        <tree string="Received Items" editable="bottom">
+                            <field name="prl_id" domain="[('pr_id','=',parent.name)]"/>
+                            <field name="qty"/>
+                            <field name="date"/>
+                            <field name="invoice_id" domain="[('pr_id','=',parent.name)]"/>
+                        </tree>
+                        <form string="Received Item">
+                            <field name="prl_id" domain="[('pr_id','=',parent.name)]"/>
+                            <field name="qty"/>
+                            <field name="date"/>
+                            <field name="invoice_id" domain="[('pr_id','=',parent.name)]"/>
+                            <field name="notes" colspan="4" nolabel="1"/>
+                        </form>
+                    </field>
+                    <field name="invoices" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','invoices')]}">
+                        <tree string="Invoices" editable="bottom">
+                            <field name="name"/>
+                            <field name="amount"/>
+                            <field name="date"/>
+                        </tree>
+                        <form string="Invoice">
+                            <field name="name"/>
+                            <field name="amount"/>
+                            <field name="date"/>
+                            <field name="notes" colspan="4" nolabel="1"/>
+                        </form>
+                    </field>
+                </page>
+                <page string="Distribution">
+                    <field name="deliveries" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','deliveries')]}">
+                        <tree string="Deliveries" editable="bottom">
+                            <field name="prl_id" domain="[('pr_id','=',parent.name)]" context="{'pr':parent.name}"/>
+                            <field name="qty"/>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                        </tree>
+                        <form string="Delivery">
+                            <field name="prl_id" domain="[('pr_id','=',parent.name)]"/>
+                            <field name="qty"/>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                            <field name="notes" colspan="4" nolabel="1"/>
+                        </form>
+                    </field>
+                </page>
+                <page string="Budget">
+                    <field name="apc_entries" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','apc_entries')]}">
+                        <tree string="APC Entries" editable="bottom">
+                            <field name="sequence"/>
+                            <field name="apc_id"/>
+                            <field name="curbal"/>
+                            <field name="date"/>
+                            <field name="name"/>
+                            <field name="eor_id"/>
+                            <field name="commit" sum="Commit"/>
+                            <field name="used" sum="Used"/>
+                            <field name="voucher"/>
+                        </tree>
+                    </field>
+                    <button string="Create APC entries" type="object" name="button_apc_entries"/>
+                    <separator string="Lines of Accounting" colspan="4"/>
+                    <field name="loa" colspan="4" nolabel="1"/>
+                </page>
+                <page string="Amendments">
+                    <field name="amendments" nolabel="1" colspan="4" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','amendment')]}">
+                        <tree string="Amendment Requests">
+                            <field name="date"/>
+                            <field name="desc"/>
+                            <field name="state"/>
+                        </tree>
+                        <form string="Amendment Request">
+                            <field name="date"/>
+                            <field name="state"/>
+                            <field name="desc" colspan="4"/>
+                            <field name="notes" colspan="4"/>
+                        </form>
+                    </field>
+                </page>
+                <page string="History">
+                    <field name="history" colspan="4" nolabel="1" groups_edit="ac_afrims.group_purch_admin" attrs="{'readonly':[('fields_editable','not contains','history')]}">
+                        <tree string="Workflow History" limit="40">
+                            <field name="decision_id"/>
+                            <field name="type"/>
+                            <field name="role_id"/>
+                            <field name="employee_id"/>
+                            <field name="choice_id"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </tree>
+                        <form string="Workflow History">
+                            <field name="decision_id"/>
+                            <field name="type"/>
+                            <field name="role_id"/>
+                            <field name="employee_id"/>
+                            <field name="choice_id"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </form>
+                    </field>
+                    <!--
+                    <button type="action" name="%(wiz_approv_req)d" string="Send new request" context="{'model':'purchase.request'}"/>
+                    -->
+                </page>
+                <page string="Use">
+                    <separator string="Notes-I" colspan="4"/>
+                    <field name="use_notes1" colspan="4" nolabel="1"/>
+                    <separator string="Notes-II" colspan="4"/>
+                    <field name="use_notes2" colspan="4" nolabel="1"/>
+                    <separator string="Notes-III" colspan="4"/>
+                    <field name="use_notes3" colspan="4" nolabel="1"/>
+                    <field name="use_amount"/>
+                    <field name="use_currency_id"/>
+                </page>
+            </notebook>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ purchase.request.line -->
+<record id="view_prl_tree" model="ir.ui.view">
+    <field name="name">prl.tree</field>
+    <field name="model">purchase.request.line</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Purchase request lines">
+          <!--  <field name="id" string="PR line"/>-->
+            <field name="pr_id"/>
+            <field name="type"/>
+            <field name="requester_id"/>
+            <field name="department_id"/>
+            <field name="section_id"/>
+            <field name="doc_no"/>
+            <field name="sequence"/>
+            <field name="name"/>
+            <field name="project_apc_list" />
+            <field name="notes" />
+            <field name="apc_list"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="price_unit"/>
+            <field name="subtotal"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_prl_form" model="ir.ui.view">
+    <field name="name">prl.form</field>
+    <field name="model">purchase.request.line</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Purchase request line">
+            <field name="pr_id" readonly="1"/>
+            <field name="type" readonly="1"/>
+            <field name="requester_id" readonly="1"/>
+            <field name="department_id" readonly="1"/>
+            <field name="section_id" readonly="1"/>
+            <field name="doc_no" readonly="1"/>
+            <field name="sequence" readonly="1"/>
+            <field name="name" readonly="1"/>
+            <field name="projects" />
+            <field name="qty" readonly="1"/>
+            <field name="uom_id" readonly="1"/>
+            <field name="price_unit" readonly="1"/>
+            <field name="subtotal" readonly="1"/>
+            <field name="state" readonly="1"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ apc.distrib -->
+<record id="view_apc_distrib_tree" model="ir.ui.view">
+    <field name="name">apc.distrib.tree</field>
+    <field name="model">apc.distrib</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="APCs" editable="bottom">
+            <field name="apc_id" domain="[('department_id','=',parent.department_id)]"/>
+            <field name="amount"/>
+            <field name="sponsor_id"/>
+            <field name="notes"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_apc_distrib_form" model="ir.ui.view">
+    <field name="name">apc.distrib.form</field>
+    <field name="model">apc.distrib</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="APC">
+            <field name="apc_id"/>
+            <field name="amount"/>
+            <field name="sponsor_id"/>
+            <field name="notes"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ project.distrib -->
+<record id="view_project_distrib_tree" model="ir.ui.view">
+    <field name="name">project.distrib.tree</field>
+    <field name="model">project.distrib</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Projects" editable="bottom">
+            <field name="project_id"/>
+            <field name="site_id" groups_edit="ac_afrims.group_purch_admin"/>
+            <field name="percent"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_project_distrib_form" model="ir.ui.view">
+    <field name="name">project.distrib.form</field>
+    <field name="model">project.distrib</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Project">
+            <field name="project_id"/>
+            <field name="site_id" groups_edit="ac_afrims.group_purch_admin"/>
+            <field name="percent"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ approval.request -->
+<record id="view_approval_request_tree" model="ir.ui.view">
+    <field name="name">approval.request.tree</field>
+    <field name="model">approval.request</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Approval Requests" limit="20">
+            <field name="decision_id"/>
+            <field name="employee_id"/>
+            <field name="date"/>
+            <field name="state"/>
+            <field name="user_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_approval_request_form" model="ir.ui.view">
+    <field name="name">approval.request.form</field>
+    <field name="model">approval.request.inst</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Approval Request">
+            <field name="decision_id"/>
+            <field name="employee_id"/>
+            <field name="user_id"/>
+            <field name="date"/>
+            <field name="state"/>
+            <field name="user_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ remark.template -->
+<record id="view_remark_template_tree" model="ir.ui.view">
+    <field name="name">remark.template.tree</field>
+    <field name="model">remark.template</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Remarks Templates">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_remark_template_form" model="ir.ui.view">
+    <field name="name">remark.template.form</field>
+    <field name="model">remark.template</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Remarks Template">
+            <separator string="Remarks" colspan="4"/>
+            <field name="name" colspan="4" nolabel="1"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ travel.state -->
+<record id="view_trv_state_tree" model="ir.ui.view">
+    <field name="name">trv.state.tree</field>
+    <field name="model">travel.state</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Travel States">
+            <field name="name"/>
+            <field name="type"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_trv_state_form" model="ir.ui.view">
+    <field name="name">trv.state.form</field>
+    <field name="model">travel.state</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Travel State">
+            <field name="name"/>
+            <field name="type"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ travel.county -->
+<record id="view_trv_county_tree" model="ir.ui.view">
+    <field name="name">trv.county.tree</field>
+    <field name="model">travel.county</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Travel Counties">
+            <field name="name"/>
+            <field name="state_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_trv_county_form" model="ir.ui.view">
+    <field name="name">trv.county.form</field>
+    <field name="model">travel.county</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Travel County">
+            <field name="name"/>
+            <field name="state_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ travel.locality -->
+<record id="view_trv_locality_tree" model="ir.ui.view">
+    <field name="name">trv.locality.tree</field>
+    <field name="model">travel.locality</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Travel Localities">
+            <field name="name"/>
+            <field name="state_id"/>
+            <field name="county_id"/>
+            <field name="lodging"/>
+            <field name="m_and_i"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_trv_locality_form" model="ir.ui.view">
+    <field name="name">trv.locality.form</field>
+    <field name="model">travel.locality</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Travel Locality">
+            <field name="name"/>
+            <field name="state_id"/>
+            <field name="county_id"/>
+            <field name="max_per_diem"/>
+            <field name="lodging"/>
+            <field name="m_and_i"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ travel.place -->
+<record id="view_trv_place_tree" model="ir.ui.view">
+    <field name="name">trv.place.tree</field>
+    <field name="model">travel.place</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Travel Places">
+            <field name="name"/>
+            <field name="locality_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_trv_place_form" model="ir.ui.view">
+    <field name="name">trv.place.form</field>
+    <field name="model">travel.place</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Travel Place">
+            <field name="name"/>
+            <field name="locality_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ travel.mode -->
+<record id="view_trv_mode_tree" model="ir.ui.view">
+    <field name="name">trv.mode.tree</field>
+    <field name="model">travel.mode</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Travel Modes">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_trv_mode_form" model="ir.ui.view">
+    <field name="name">trv.mode.form</field>
+    <field name="model">travel.mode</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Travel Mode">
+            <field name="name"/>
+            <field name="categ1"/>
+            <field name="categ2"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ tdy.categ -->
+<record id="view_tdy_categ_tree" model="ir.ui.view">
+    <field name="name">tdy.categ.tree</field>
+    <field name="model">tdy.categ</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="TDY Categories">
+            <field name="name"/>
+            <field name="department_id"/>
+            <field name="active"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_tdy_categ_form" model="ir.ui.view">
+    <field name="name">tdy.categ.form</field>
+    <field name="model">tdy.categ</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="TDY Category">
+            <field name="name"/>
+            <field name="department_id"/>
+            <field name="active"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ site -->
+<record id="view_site_tree" model="ir.ui.view">
+    <field name="name">site.tree</field>
+    <field name="model">site</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Sites">
+            <field name="name"/>
+            <field name="department_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_site_form" model="ir.ui.view">
+    <field name="name">site.form</field>
+    <field name="model">site</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Site">
+            <field name="name"/>
+            <field name="department_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ itin.desc -->
+<record id="view_itin_desc_tree" model="ir.ui.view">
+    <field name="name">itin.desc.tree</field>
+    <field name="model">itin.desc</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Itinerary Descriptions">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_itin_desc_form" model="ir.ui.view">
+    <field name="name">itin.desc.form</field>
+    <field name="model">itin.desc</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Itinerary Description">
+            <field name="name"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ travel.rate -->
+<record id="view_trv_rate_tree" model="ir.ui.view">
+    <field name="name">trv.rate.tree</field>
+    <field name="model">travel.rate</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Travel Rates">
+            <field name="locality_id"/>
+            <field name="state_id"/>
+            <field name="county_id"/>
+            <field name="start"/>
+            <field name="end"/>
+            <field name="lodging"/>
+            <field name="meals"/>
+            <field name="incidental"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_trv_rate_form" model="ir.ui.view">
+    <field name="name">trv.rate.form</field>
+    <field name="model">travel.rate</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Travel Rate">
+            <field name="locality_id"/>
+            <field name="state_id"/>
+            <field name="county_id"/>
+            <field name="start"/>
+            <field name="end"/>
+            <field name="lodging"/>
+            <field name="meals"/>
+            <field name="incidental"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ tdy.request -->
+<record id="view_tdy_tree" model="ir.ui.view">
+    <field name="name">tdy.tree</field>
+    <field name="model">tdy.request</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="TDY Requests">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="requester_id"/>
+            <field name="department_id"/>
+            <field name="section_id"/>
+            <field name="doc_no"/>
+            <field name="po_no"/>
+            <field name="tdy_location"/>
+            <field name="dep_date"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_tdy_form" model="ir.ui.view">
+    <field name="name">tdy.form</field>
+    <field name="model">tdy.request</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="TDY Request">
+            <field name="fields_editable" invisible="1"/>
+                    <separator colspan="4" string="For Admin"/>
+                    <group colspan="2" col="2">
+                        <field name="name" groups_edit="ac_afrims.group_purch_admin"/>
+                        <newline />
+                        <field name="requester_id" groups_edit="ac_afrims.group_purch_admin" on_change="onchange_requester(requester_id)" 
+                        attrs="{'readonly':[('fields_editable','not contains','requester_id')]}"/>
+                        <field name="department_id" groups_edit="ac_afrims.group_purch_admin"
+                        attrs="{'readonly':[('fields_editable','not contains','department_id')]}"/>
+                        <field name="section_id" groups_edit="ac_afrims.group_purch_admin"
+                        attrs="{'readonly':[('fields_editable','not contains','section_id')]}"/>
+                        <newline/>
+                    </group>
+                    <group colspan="2" col="2">
+                        <field name="date" groups_edit="ac_afrims.group_purch_admin" 
+                        attrs="{'readonly':[('fields_editable','not contains','date')]}"/>
+                        <field name="doc_no" groups_edit="ac_afrims.group_purch_admin" 
+                        attrs="{'readonly':[('fields_editable','not contains','doc_no')]}"/>
+                        <field name="po_no" groups_edit="ac_afrims.group_purch_admin"
+                        attrs="{'readonly':[('fields_editable','not contains','po_no')]}"/>
+                        <field name="fy_id" groups_edit="ac_afrims.group_purch_admin" />
+                        <newline/>
+                    </group>
+            <separator colspan="4" string="For Traveler"/>
+            <group colspan="2" col="2">
+                <separator string="Main purpose" colspan="4"/>
+                <field name="purpose" colspan="4" nolabel="1" attrs="{'readonly':[('fields_editable','not contains','purpose')]}"/>
+            </group>
+            <!--<group colspan="2" col="2"  groups="ac_afrims.group_full_view">
+            <group colspan="2" col="2">
+                <separator string="Requester Information" colspan="1" col="4"/>
+                <field name="ssn" attrs="{'readonly':[('fields_editable','not contains','ssn')]}" />
+                <field name="rank" attrs="{'readonly':[('fields_editable','not contains','rank')]}"/>
+                <field name="position" attrs="{'readonly':[('fields_editable','not contains','position')]}" />
+                <newline />
+                <separator string="Passport Information" colspan="1" col="4"/>
+                <field name="pass_num"/>
+                <field name="pass_date_issue"/>
+                <field name="pass_date_exp"/>
+                <field name="pass_place_issue"/>
+                <field name="pass_name"/>
+            </group>-->
+            <group colspan="2" col="2">
+                <separator string="Itinerary" colspan="4"/>
+                <field name="itin" colspan="4" nolabel="1" attrs="{'readonly':[('fields_editable','not contains','itin')]}"/>
+            </group>
+            <group colspan="4">
+                <field name="tdy_location" attrs="{'readonly':[('fields_editable','not contains','tdy_location')]}"/>
+                <field name="range" attrs="{'readonly':[('fields_editable','not contains','range')]}"/>
+                <field name="dep_date" attrs="{'readonly':[('fields_editable','not contains','dep_date')]}"/>
+                <field name="tdy_days" attrs="{'readonly':[('fields_editable','not contains','tdy_days')]}"/>
+                <newline/>
+                <field name="categ_id" attrs="{'readonly':[('fields_editable','not contains','categ_id')]}"/>
+                <newline/>
+                <field name="advance" attrs="{'readonly':[('fields_editable','not contains','advance')]}"/>
+            <!--<field name="advance_amount" attrs="{'readonly':[('fields_editable','not contains','advance_amount')]}"/>-->
+            </group>
+
+            <separator string="Projects(Required)" colspan="4"/>
+            <field name="projects" colspan="4" nolabel="1" default_get="{'projects':projects}"
+            attrs="{'readonly':[('fields_editable','not contains','projects')]}"/>
+            <separator colspan="4" string="Optional"/>
+            <notebook colspan="4">
+                <page string="Cost Estimates" groups="ac_afrims.group_full_view">
+                    <field name="other_rate"/>
+                    <field name="travel_rates" colspan="4" nolabel="1">
+                        <tree string="Travel Rates" editable="bottom">
+                            <field name="place_id"/>
+                            <field name="lodging"/>
+                            <field name="m_i"/>
+                        </tree>
+                    </field>
+                    <label string="If you don't enter travel rates, JFTR rates will be used by default" colspan="4"/>
+                    <field name="transport_costs" colspan="4" nolabel="1">
+                        <tree string="Transport Costs" editable="bottom">
+                            <field name="mode"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="currency_id"/>
+                        </tree>
+                    </field>
+                    <separator string="Computed Cost Estimates" colspan="4"/>
+                    <group colspan="4" col="10">
+                        <field name="cost_per_diem"/>
+                        <field name="cost_travel"/>
+                        <field name="cost_regis"/>
+                        <field name="cost_other"/>
+                        <field name="cost_total"/>
+                        <field name="cost_per_diem_man"/>
+                        <field name="cost_travel_man"/>
+                        <newline/>
+                        <field name="per_diem_eor_id"/>
+                        <field name="travel_eor_id"/>
+                        <field name="regis_eor_id"/>
+                    </group>
+                    <separator string="Per Diem Cost Details" colspan="4"/>
+                    <field name="cost_per_diem_details" colspan="4" nolabel="1"/>
+                </page>
+                <page string="Funding" groups="ac_afrims.group_full_view">
+                    <field name="apcs" colspan="4" nolabel="1" attrs="{'readonly':[('fields_editable','not contains','apcs')]}" context="{'total':cost_total}"/>
+                 <separator string="Recommended APCs" colspan="4"/>
+                    <field name="rec_apcs" colspan="4" nolabel="1"/>
+                </page>
+                <page string="Budget" groups="ac_afrims.group_full_view">
+                    <field name="apc_entries" colspan="4" nolabel="1" context="{'requester': requester_id}">
+                        <tree string="APC Entries" editable="bottom">
+                            <field name="sequence"/>
+                            <field name="apc_id"/>
+                            <field name="curbal"/>
+                            <field name="date"/>
+                            <field name="name"/>
+                            <field name="eor_id"/>
+                            <field name="commit" sum="Commit"/>
+                            <field name="used" sum="Used"/>
+                            <field name="voucher"/>
+                        </tree>
+                    </field>
+                    <button string="Create APC entries" type="object" name="button_apc_entries"/>
+                    <separator string="Lines of Accounting"/>
+                    <field name="loa" colspan="4" nolabel="1"/>
+                </page>
+                <page string="Itinerary">
+                    <group colspan="2">
+                        <separator string="TDY/Leave Address" colspan="4"/>
+                        <field name="address" colspan="4" nolabel="1" attrs="{'readonly':[('fields_editable','not contains','address')]}"/>
+                    </group>
+                    <group colspan="2">
+                        <separator string="Travel Modes" colspan="4"/>
+                        <field name="travel_modes" colspan="4" nolabel="1" attrs="{'readonly':[('fields_editable','not contains','travel_modes')]}"/>
+                    </group>
+                    <separator colspan="4"/>
+                    <field name="itin_det" colspan="4" nolabel="1" context="{'tdy':name}">
+                        <tree string="Detailed Itinerary" editable="bottom">
+                            <field name="date_from" on_change="onchange_date_from(date_from,date_to)"/>
+                            <field name="place_from_id"/>
+                            <field name="date_to"/>
+                            <field name="place_to_id"/>
+                            <field name="desc"/>
+                            <field name="mode"/>
+                            <field name="need_lodging"/>
+                            <field name="address_id"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Conferences">
+                    <field name="conferences" colspan="4" nolabel="1">
+                        <tree string="Conferences" editable="bottom">
+                            <field name="name"/>
+                            <field name="location"/>
+                            <field name="date"/>
+                            <field name="pres_title"/>
+                            <field name="pres_type"/>
+                            <field name="cost"/>
+                            <field name="currency_id"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Remarks" groups="ac_afrims.group_full_view">
+                    <separator string="Remarks"/>
+                    <field name="notes" colspan="4" nolabel="1"/>
+                    <button name="%(wiz_rem_tmpl)d" type="action" string="Add remarks from templates"/>
+                    <separator string="Extra Notes" colspan="4"/>
+                    <field name="notes1" colspan="4"/>
+                    <field name="notes2" colspan="4"/>
+                    <field name="notes3" colspan="4"/>
+                </page>
+                <page string="Amendments">
+                    <field name="amendments" nolabel="1" colspan="4">
+                        <tree string="Amendment Requests">
+                            <field name="date"/>
+                            <field name="desc"/>
+                            <field name="state"/>
+                        </tree>
+                        <form string="Amendment Request">
+                            <field name="date"/>
+                            <field name="state"/>
+                            <field name="desc" colspan="4"/>
+                            <field name="notes" colspan="4"/>
+                        </form>
+                    </field>
+                </page>
+                <page string="History">
+                    <field name="history" colspan="4" nolabel="1" attrs="{'readonly':[('fields_editable','not contains','history')]}">
+                        <tree string="Workflow History" limit="40">
+                            <field name="decision_id"/>
+                            <field name="type"/>
+                            <field name="role_id"/>
+                            <field name="employee_id"/>
+                            <field name="choice_id"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </tree>
+                        <form string="Workflow History">
+                            <field name="decision_id"/>
+                            <field name="type"/>
+                            <field name="role_id"/>
+                            <field name="employee_id"/>
+                            <field name="choice_id"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </form>
+                    </field>
+                </page>
+            </notebook>
+            <separator string="Approval" colspan="4"/>
+            <field name="thai_super_id" attrs="{'readonly':[('fields_editable','not contains','thai_super_id')]}"/>
+            <field name="mil_super_id" attrs="{'readonly':[('fields_editable','not contains','mil_super_id')]}"/>
+            <field name="purch_admin_id" attrs="{'readonly':[('fields_editable','not contains','purch_admin_id')]}"/>
+            <field name="req_official_id" attrs="{'readonly':[('fields_editable','not contains','req_official_id')]}"/>
+            <field name="app_official_id" attrs="{'readonly':[('fields_editable','not contains','app_official_id')]}"/>
+            <field name="auth_official_id" attrs="{'readonly':[('fields_editable','not contains','auth_official_id')]}"/>
+            <separator colspan="4"/>
+            <field name="state" groups_edit="ac_afrims.group_purch_admin"/>
+            <newline/>
+            <group colspan="4" col="40" name="buttons"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ invoice -->
+<record id="view_inv_tree" model="ir.ui.view">
+    <field name="name">inv.tree</field>
+    <field name="model">invoice</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Invoices">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="supplier_id"/>
+            <field name="po_no"/>
+            <field name="amount"/>
+            <field name="voucher_no"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_inv_form" model="ir.ui.view">
+    <field name="name">inv.form</field>
+    <field name="model">invoice</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Invoice">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="supplier_id"/>
+            <field name="po_no"/>
+            <field name="amount"/>
+            <field name="voucher_no"/>
+            <field name="state"/>
+            <separator string="Notes" colspan="4"/>
+            <field name="notes" colspan="4" nolabel="1"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ project -->
+<record id="view_project_tree" model="ir.ui.view">
+    <field name="name">project.tree</field>
+    <field name="model">project</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Projects">
+            <field name="name"/>
+            <field name="protocol"/>
+            <field name="site_ref"/>
+            <field name="department_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_project_form" model="ir.ui.view">
+    <field name="name">project.form</field>
+    <field name="model">project</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Project">
+            <field name="name"/>
+            <field name="protocol"/>
+            <field name="site_ref"/>
+            <field name="active"/>
+            <field name="department_id"/>
+            <separator string="Notes" colspan="4"/>
+            <field name="notes"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ eor -->
+<record id="view_eor_tree" model="ir.ui.view">
+    <field name="name">eor.tree</field>
+    <field name="model">eor</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="EORs">
+            <field name="code"/>
+            <field name="full_name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_eor_form" model="ir.ui.view">
+    <field name="name">eor.form</field>
+    <field name="model">eor</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="EOR">
+            <field name="code"/>
+            <field name="name"/>
+            <field name="parent_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ employee -->
+<record id="view_employee_tree" model="ir.ui.view">
+    <field name="name">view_employee_tree</field>
+    <field name="model">employee</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Employees">
+            <field name="full_name"/>
+            <field name="sequence"/>
+            <field name="prefix"/>
+            <field name="rank"/>
+            <field name="title"/>
+            <field name="title_short"/>
+            <field name="emp_type" />
+            <field name="department_id"/>
+            <field name="department_hr"/>
+            <field name="section_id"/>
+            <field name="site"/>
+            <field name="high_degree"/>
+            <field name="email"/>
+            <field name="email_notif"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_employee_form" model="ir.ui.view">
+    <field name="name">view_employee_form</field>
+    <field name="model">employee</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Employee">
+            <separator string="Name" colspan="4"/>
+            <field name="sequence"/>
+            <field name="lname"/>
+            <field name="fname"/>
+            <field name="full_name"/>
+            <field name="full_name_prefix"/>
+            <field name="nickname"/>
+            <field name="thaifname"/>
+            <field name="thailname"/>
+            <field name="thai_full_name"/>
+            <field name="rank"/>
+            <field name="subrank"/>
+            <field name="prefix"/>
+            <group groups="ac_afrims.group_employee_details" colspan="4">
+                <separator string="Address" colspan="4"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <separator string="Personal Info" colspan="4"/>
+                <field name="gender2"/>
+                <field name="citizenship"/>
+                <field name="birthdate"/>
+                <field name="age"/>
+                <separator string="Education" colspan="4"/>
+                <field name="high_degree" select="2"/>
+                <field name="mph"/>
+                <field name="postdoc"/>
+                <field name="bach_degree"/>
+                <field name="bach_major"/>
+                <field name="bach_univ"/>
+                <field name="bach_country"/>
+                <field name="mast_degree"/>
+                <field name="mast_major"/>
+                <field name="mast_univ"/>
+                <field name="mast_country"/>
+                <field name="phd_major"/>
+                <field name="phd_univ"/>
+                <field name="phd_country"/>
+                <separator string="Employment" colspan="4"/>
+                <field name="active" select="1"/>
+                <field name="employee_no"/>
+                <field name="ssn_account_no"/>
+                <field name="emp_type"/>
+                <field name="date_ca_emp"/>
+                <field name="date_ca_dep"/>
+                <field name="date_fsn_emp"/>
+                <field name="date_fsn_dep"/>
+                <field name="date_fsn_step_inc"/>
+                <field name="date_fsn_prom"/>
+                <field name="grade"/>
+                <field name="step"/>
+                <field name="title"/>
+                <field name="position"/>
+                <field name="title_short"/>
+                <field name="position_series"/>
+                <newline/>
+                <field name="supervisor"/>
+                <field name="supervisor_ext"/>
+                <field name="rater" invisible="1"/>
+                <field name="rater_ext" invisible="1"/>
+                <field name="review_official" invisible="1"/>
+                <field name="review_official_ext" invisible="1"/>
+                <field name="site"/>
+                <field name="section_id"/>
+                <field name="department_id"/>
+                <field name="department_hr"/>
+                <field name="room_no"/>
+                <field name="phone_ext"/>
+                <field name="email"/>
+                <field name="email_notif"/>
+                <field name="dl"/>
+                <separator string="Notes" colspan="4"/>
+                <field name="notes" colspan="4"/>
+                <separator string="Cost" colspan="4"/>
+                <field name="salary_year"/>
+                <field name="salary_currency"/>
+                <field name="salary_month"/>
+                <field name="salary_hour"/>
+                <separator string="Travel" colspan="4"/>
+                <field name="pass_num"/>
+                <field name="pass_exp_date"/>
+                <field name="pass_issue_date"/>
+                <field name="pass_issue_place"/>
+                <field name="pass_name"/>
+                <field name="atfp_date"/>
+            </group>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ department -->
+<record id="view_department_tree" model="ir.ui.view">
+    <field name="name">department.tree</field>
+    <field name="model">department</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Departments">
+            <field name="name"/>
+            <field name="long_name"/>
+            <field name="chief_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_department_form" model="ir.ui.view">
+    <field name="name">department.form</field>
+    <field name="model">department</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Department">
+            <field name="name"/>
+            <field name="long_name"/>
+            <field name="chief_id"/>
+            <newline/>
+            <field name="address1"/>
+            <field name="address2"/>
+            <newline/>
+            <field name="paragraph"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ section -->
+<record id="view_section_tree" model="ir.ui.view">
+    <field name="name">section.tree</field>
+    <field name="model">section</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Sections">
+            <field name="name"/>
+            <field name="long_name"/>
+            <field name="department_id"/>
+            <field name="supervisor_id"/>
+            <field name="mil_supervisor_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_section_form" model="ir.ui.view">
+    <field name="name">section.form</field>
+    <field name="model">section</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Sections">
+            <field name="name"/>
+            <field name="long_name"/>
+            <field name="department_id"/>
+            <field name="supervisor_id"/>
+            <field name="mil_supervisor_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wkf.state -->
+<record id="view_wkf_state_tree" model="ir.ui.view">
+    <field name="name">wkf.state.tree</field>
+    <field name="model">wkf.state</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Workflow States">
+            <field name="sequence"/>
+            <field name="model_id"/>
+            <field name="name"/>
+            <field name="active"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_wkf_state_form" model="ir.ui.view">
+    <field name="name">wkf.state.form</field>
+    <field name="model">wkf.state</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Workflow State">
+            <field name="sequence"/>
+            <field name="model_id"/>
+            <field name="name"/>
+            <field name="active"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wkf.decision -->
+<record id="view_wkf_decision_tree" model="ir.ui.view">
+    <field name="name">wkf.decision.tree</field>
+    <field name="model">wkf.decision</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Workflow Decisions">
+            <field name="model_id"/>
+            <field name="name"/>
+            <field name="choice_type"/>
+            <field name="interface_type"/>
+            <field name="sequence"/>
+            <field name="menu_waiting"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_wkf_decision_form" model="ir.ui.view">
+    <field name="name">wkf.decision.form</field>
+    <field name="model">wkf.decision</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Workflow Decision">
+            <field name="model_id"/>
+            <field name="name"/>
+            <field name="sequence"/>
+            <field name="conditions" colspan="4" nolabel="1">
+                <tree string="Conditions" editable="bottom">
+                    <field name="state_from" domain="[('model_id','=',parent.model_id)]"/>
+                    <field name="condition"/>
+                </tree>
+            </field>
+            <separator string="Choices" colspan="4"/>
+            <field name="choice_type"/>
+            <field name="interface_type"/>
+            <field name="choice_button"/>
+            <field name="choice_title"/>
+            <field name="choice_field"/>
+            <field name="choices" colspan="4" nolabel="1">
+                <tree string="Choices" editable="bottom">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="condition"/>
+                    <field name="confirm"/>
+                    <field name="waiting_type"/>
+                    <field name="action"/>
+                    <field name="state_to" domain="[('model_id','=',parent.model_id)]"/>
+                    <field name="next_decision_id" domain="[('model_id','=',parent.model_id)]"/>
+                </tree>
+                <form string="Choice">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="condition"/>
+                    <field name="confirm"/>
+                    <field name="waiting_type"/>
+                    <field name="action"/>
+                    <field name="state_to"/>
+                    <field name="next_decision_id"/>
+                </form>
+            </field>
+            <separator string="Deciders" colspan="4"/>
+            <field name="deciders" colspan="4" nolabel="1">
+                <tree string="Deciders">
+                    <field name="role_id"/>
+                    <field name="condition"/>
+                    <field name="send_email"/>
+                </tree>
+                <form string="Decider">
+                    <field name="role_id"/>
+                    <field name="condition"/>
+                    <separator string="Email Request" colspan="4"/>
+                    <field name="send_email"/>
+                    <field name="email" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+            <separator string="Menu" colspan="4"/>
+            <field name="menu_waiting"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wkf.constraint -->
+<record id="view_wkf_constraint_tree" model="ir.ui.view">
+    <field name="name">wkf.constraint.tree</field>
+    <field name="model">wkf.constraint</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Workflow Constraints">
+            <field name="model_id"/>
+            <field name="state"/>
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_wkf_constraint_form" model="ir.ui.view">
+    <field name="name">wkf.constraint.form</field>
+    <field name="model">wkf.constraint</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Workflow State">
+            <field name="model_id"/>
+            <field name="state" domain="[('model_id','=',model_id)]"/>
+            <field name="name"/>
+            <separator string="Code" colspan="4"/>
+            <field name="code" colspan="4" nolabel="1"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wiz.update.view -->
+<record id="view_wiz_update_view" model="ir.ui.view">
+    <field name="name">wiz.update.view</field>
+    <field name="model">wiz.update.view</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Update Views">
+            <label string="This will update object views from workflow definitions." colspan="4"/>
+            <button name="button_update" type="object" string="Update"/>
+            <button special="cancel" string="Cancel"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wiz.create.users -->
+<record id="view_wiz_create_users" model="ir.ui.view">
+    <field name="name">wiz.create.users</field>
+    <field name="model">wiz.create.users</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Create Users">
+            <label string="This will create users from the list of employees." colspan="4"/>
+            <button name="button_create" type="object" string="Create"/>
+            <button special="cancel" string="Cancel"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wiz.update.travel -->
+<record id="view_wiz_update_travel" model="ir.ui.view">
+    <field name="name">wiz.update.travel</field>
+    <field name="model">wiz.update.travel</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Update Travel Rates">
+            <label string="This will download new travel rates." colspan="4"/>
+            <button name="button_update" type="object" string="Update"/>
+            <button special="cancel" string="Cancel"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wiz.print.wkf -->
+<record id="view_wiz_print_wkf" model="ir.ui.view">
+    <field name="name">wiz.print.wkf</field>
+    <field name="model">wiz.print.wkf</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Print Workflow">
+            <field name="model_id"/>
+            <newline/>
+            <button name="%(rep_wkf)d" type="action" string="Print"/>
+            <button special="cancel" string="Cancel"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wkf.role -->
+<record id="view_wkf_role_tree" model="ir.ui.view">
+    <field name="name">wkf.role.tree</field>
+    <field name="model">wkf.role</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Workflow Roles">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_wkf_role_form" model="ir.ui.view">
+    <field name="name">wkf.role.form</field>
+    <field name="model">wkf.role</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Workflow Role">
+            <field name="name"/>
+            <field name="employees" colspan="4" nolabel="1">
+                <tree string="Employees" editable="bottom">
+                    <field name="employee_id"/>
+                    <field name="code"/>
+                    <field name="condition"/>
+                </tree>
+            </field>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ product.product -->
+<record id="view_product_tree" model="ir.ui.view">
+    <field name="name">view_product_tree</field>
+    <field name="model">product.product</field>
+    <field name="type">tree</field>
+    <field name="inherit_id" ref="product.product_product_tree_view"/>
+    <field name="arch" type="xml">
+    <data>
+        <field name="uom_id" position="after">
+            <field name="eor_id"/>
+            <field name="catalog_use_ok"/>
+        </field>
+    </data>
+
+    </field>
+</record>
+
+<record id="view_product_form" model="ir.ui.view">
+    <field name="name">view_product_form</field>
+    <field name="model">product.product</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <field name="arch" type="xml">
+    <data>
+        <field name="categ_id" position="after">
+            <field name="eor_id"/>
+        </field>
+
+        <field name="rental" position="after">
+            <field name="catalog_use_ok"/>
+        </field>
+        <field name="cost_method" position="after">
+            <field name="currency_id"/>
+        </field>
+
+
+    </data>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ warehouse -->
+<record id="view_wh_tree" model="ir.ui.view">
+    <field name="name">wh.tree</field>
+    <field name="model">warehouse</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Warehouses">
+            <field name="name"/>
+            <field name="department_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_wh_form" model="ir.ui.view">
+    <field name="name">wh.form</field>
+    <field name="model">warehouse</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Warehouse">
+            <field name="name"/>
+            <field name="department_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ wh.location -->
+<record id="view_wh_location_tree" model="ir.ui.view">
+    <field name="name">wh.location.tree</field>
+    <field name="model">wh.location</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Warehouse Locations">
+            <field name="name"/>
+            <field name="wh_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_wh_location_form" model="ir.ui.view">
+    <field name="name">wh.location.form</field>
+    <field name="model">wh.location</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Warehouse Location">
+            <field name="name"/>
+            <field name="wh_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ in.item -->
+<record id="view_in_item_tree" model="ir.ui.view">
+    <field name="name">in.item.tree</field>
+    <field name="model">in.item</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Incoming Items" editable="top">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="employee_id"/>
+            <field name="date"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_in_item_form" model="ir.ui.view">
+    <field name="name">in.item.form</field>
+    <field name="model">in.item</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Incoming Item">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="employee_id"/>
+            <field name="date"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ out.item -->
+<record id="view_out_item_tree" model="ir.ui.view">
+    <field name="name">out.item.tree</field>
+    <field name="model">out.item</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Outgoing Items" editable="top">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="employee_id"/>
+            <field name="date"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_out_item_form" model="ir.ui.view">
+    <field name="name">out.item.form</field>
+    <field name="model">out.item</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Outgoing Item">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="employee_id"/>
+            <field name="date"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ int.move -->
+<record id="view_int_move_tree" model="ir.ui.view">
+    <field name="name">int.move.tree</field>
+    <field name="model">int.move</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Internal Moves" editable="top">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="from_location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="to_location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="date"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_int_move_form" model="ir.ui.view">
+    <field name="name">int.move.form</field>
+    <field name="model">int.move</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Internal Move">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="from_location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="to_location_id" domain="[('wh_id','=',wh_id)]"/>
+            <field name="date"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ avail.item -->
+<record id="view_avail_item_tree" model="ir.ui.view">
+    <field name="name">avail.item.tree</field>
+    <field name="model">avail.item</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Available Items">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty" sum="Quantity"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="location_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_avail_item_form" model="ir.ui.view">
+    <field name="name">avail.item.form</field>
+    <field name="model">avail.item</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Available Item">
+            <field name="wh_id"/>
+            <field name="product_id"/>
+            <field name="lot"/>
+            <field name="qty"/>
+            <field name="uom_id"/>
+            <field name="container_id"/>
+            <field name="location_id"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ container -->
+<record id="view_container_tree" model="ir.ui.view">
+    <field name="name">container.tree</field>
+    <field name="model">container</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Containers">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="department_id"/>
+            <field name="employee_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_container_form" model="ir.ui.view">
+    <field name="name">container.form</field>
+    <field name="model">container</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Container">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="department_id"/>
+            <field name="employee_id"/>
+            <field name="show_prod"/>
+            <field name="content" colspan="4" nolabel="1">
+                <tree string="Container Items" editable="bottom">
+                    <field name="product_id"/>
+                    <field name="lot"/>
+                    <field name="qty"/>
+                    <field name="uom_id"/>
+                </tree>
+                <form string="Container Item">
+                    <field name="product_id"/>
+                    <field name="lot"/>
+                    <field name="qty"/>
+                    <field name="uom_id"/>
+                </form>
+            </field>
+            <separator string="Notes" colspan="4"/>
+            <field name="notes" colspan="4" nolabel="1"/>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ shipping -->
+<record id="view_ship_tree" model="ir.ui.view">
+    <field name="name">view_ship_tree</field>
+    <field name="model">shipping</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Shippings">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="ship_type"/>
+            <field name="department_id"/>
+            <field name="partner_id"/>
+            <field name="date_shipped"/>
+            <field name="date_received"/>
+            <field name="carrier"/>
+            <field name="airbill_no"/>
+            <field name="hawb_no"/>
+            <field name="pay_project_id"/>
+            <field name="pay_amount" sum="pay_amount"/>
+            <field name="payer_type"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_ship_form" model="ir.ui.view">
+    <field name="name">view_ship_form</field>
+    <field name="model">shipping</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Shipping">
+            <field name="name"/>
+            <field name="date"/>
+            <field name="ship_type"/>
+            <field name="requester_id" on_change="onchange_requester(requester_id)"/>
+            <field name="department_id"/>
+            <field name="section_id"/>
+            <field name="partner_id"/>
+            <notebook colspan="4">
+                <page string="General">
+                    <field name="poc_id"/>
+                    <separator string="Description" colspan="4"/>
+                    <field name="desc" colspan="4" nolabel="1"/>
+                    <field name="container_type"/>
+                    <newline/>
+                    <field name="temp_type"/>
+                    <field name="temp"/>
+                    <field name="lines" colspan="4" nolabel="1">
+                        <tree string="Shipment Lines" editable="bottom">
+                            <field name="name"/>
+                            <field name="lot"/>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+                            <field name="wh_id"/>
+                            <field name="weight" sum="Weight"/>
+                            <field name="specimen_type"/>
+                        </tree>
+                    </field>
+                    <group col="4" colspan="2">
+                        <field name="state"/>
+                        <newline/>
+                        <button name="btn_submit" states="draft" string="Submit for approval"/>
+                        <button name="btn_approve" states="submitted" string="Approve"/>
+                        <button name="btn_disapprove" states="submitted" string="Disapprove"/>
+                        <button name="cancel" states="draft,submitted" string="Cancel"/>
+                    </group>
+                </page>
+                <page string="Delivery Status">
+                    <field name="date_shipped"/>
+                    <field name="date_arrived"/>
+                    <field name="date_released"/>
+                    <field name="date_received"/>
+                    <separator colspan="4"/>
+                    <field name="carrier"/>
+                    <newline/>
+                    <field name="airbill_no"/>
+                    <field name="hawb_no"/>
+                </page>
+                <page string="Payment">
+                    <field name="payer_type"/>
+                    <field name="payer_dept_id"/>
+                    <newline/>
+                    <field name="pr_id"/>
+                    <newline/>
+                    <field name="pay_amount"/>
+                    <field name="pay_currency_id"/>
+                    <field name="pay_project_id"/>
+                </page>
+                <page string="Notes">
+                    <separator string="Notes" colspan="4"/>
+                    <field name="notes" colspan="4" nolabel="1"/>
+                </page>
+            </notebook>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ res.users -->
+<record id="view_user_tree" model="ir.ui.view">
+    <field name="name">user.tree</field>
+    <field name="model">res.users</field>
+    <field name="type">tree</field>
+    <field name="inherit_id" ref="base.view_users_tree"/>
+    <field name="arch" type="xml">
+        <field name="login" position="after">
+            <field name="employee_id"/>
+            <field name="require_cac"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_user_form" model="ir.ui.view">
+    <field name="name">user.form</field>
+    <field name="model">res.users</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="base.view_users_form"/>
+    <field name="arch" type="xml">
+        <field name="password" position="after">
+            <field name="employee_id"/>
+            <field name="require_cac"/>
+            <field name="cac_name"/>
+        </field>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ field.rule -->
+<record id="view_field_rule_tree" model="ir.ui.view">
+    <field name="name">field.rule.tree</field>
+    <field name="model">field.rule</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Field Rules">
+            <field name="model_id"/>
+            <field name="name"/>
+            <field name="condition"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_field_rule_form" model="ir.ui.view">
+    <field name="name">field.rule.form</field>
+    <field name="model">field.rule</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Field Rule">
+            <field name="model_id"/>
+            <field name="name"/>
+            <field name="condition"/>
+            <field name="states" colspan="4" domain="[('model_id','=',model_id)]"/>
+            <field name="fields_" colspan="4" domain="[('model_id','=',model_id)]">
+                <tree string="Fields" min_rows="20" limit="20">
+                    <field name="model"/>
+                    <field name="name"/>
+                    <field name="field_description"/>
+                </tree>
+            </field>
+        </form>
+    </field>
+</record>
+<!--}}}-->
+
+<!--{{{ res.groups -->
+<record id="view_group_form" model="ir.ui.view">
+    <field name="name">group.form</field>
+    <field name="model">res.groups</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="base.view_groups_form"/>
+    <field name="arch" type="xml">
+        <data>
+            <field name="rule_groups" position="before">
+                <separator string="Record Rules" colspan="4"/>
+            </field>
+            <field name="rule_groups" position="after">
+                <separator string="Field Rules" colspan="4"/>
+                <field name="field_rules" colspan="4" nolabel="1"/>
+            </field>
+        </data>
+    </field>
+</record>
+<!--}}}-->
+<!--}}}-->
+
+<!--{{{ actions -->
+<act_window id="act_view_budget_summary" name="Budget Summary" res_model="budget.summary" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_approved_budget_summary" name="Approved Budget Summary" res_model="approved.budget.summary" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_apc_fy" name="Fiscal Year" res_model="apc.fiscalyear" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_apc" name="APCs" res_model="apc" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_apc_entry" name="APC Entries" res_model="apc.entry" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_partner" name="Partners" res_model="res.partner" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_product" name="Products" res_model="product.product" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_my_pr" name="My Purchase Requests" res_model="purchase.request" domain="[('requester_id','=',employee_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_sect_pr" name="Section Purchase Requests" res_model="purchase.request" domain="[('section_id','=',section_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_dept_pr" name="Department Purchase Requests" res_model="purchase.request" domain="[('department_id','=',department_id)]" view_type="form" view_mode="tree,form"/>
+<act_window id="act_dept_pr_line" name="Purchase Requests lines" res_model="purchase.request.line" domain="[('pr_id.department_id','=',department_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_wait_pr" name="Waiting Purchase Requests" res_model="purchase.request" domain="[('is_waiting','=',True)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_new_pr" name="New Purchase Request" res_model="purchase.request" domain="[('requester_id','=',employee_id)]" view_type="form" view_mode="form"/>
+
+<act_window id="act_view_trv_state" name="Travel States" res_model="travel.state" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_trv_county" name="Travel Counties" res_model="travel.county" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_trv_locality" name="Travel Localities" res_model="travel.locality" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_trv_rate" name="Travel Rates" res_model="travel.rate" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_trv_place" name="Travel Places" res_model="travel.place" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_trv_mode" name="Travel Modes" res_model="travel.mode" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_tdy_categ" name="TDY Categories" res_model="tdy.categ" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_itin_desc" name="Itinerary Descriptions" res_model="itin.desc" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_remark_template" name="Remark Templates" res_model="remark.template" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_my_tdy" name="My TDY Requests" res_model="tdy.request" domain="[('requester_id','=',employee_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_sect_tdy" name="Section TDY Requests" res_model="tdy.request" domain="[('section_id','=',section_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_dept_tdy" name="Department TDY Requests" res_model="tdy.request" domain="[('department_id','=',department_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_wait_tdy" name="Waiting TDY Requests" res_model="tdy.request" domain="[('is_waiting','=',True)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_new_tdy" name="New TDY Request" res_model="tdy.request" domain="[('requester_id','=',employee_id)]" view_type="form" view_mode="form"/>
+
+<act_window id="act_view_wh" name="Warehouses" res_model="warehouse" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_wh_location" name="Warehouse Locations" res_model="wh.location" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_container" name="Containers" res_model="container" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_carrier" name="Carriers" res_model="carrier" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_avail_item" name="Available Items" res_model="avail.item" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_avail_item_wh" name="Available Items" res_model="avail.item" src_model="warehouse" domain="[('wh_id','=',active_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_in_item" name="Incoming Items" res_model="in.item" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_in_item_wh" name="Incoming Items" res_model="in.item" src_model="warehouse" domain="[('wh_id','=',active_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_out_item" name="Outgoing Items" res_model="out.item" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_out_item_wh" name="Outgoing Items" res_model="out.item" src_model="warehouse" domain="[('wh_id','=',active_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_int_move" name="Internal Moves" res_model="int.move" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_int_move_wh" name="Internal Moves" res_model="int.move" src_model="warehouse" domain="[('wh_id','=',active_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_ship" name="Shippings" res_model="shipping" view_type="form" view_mode="tree,form"/>
+
+    <act_window id="act_new_ship" name="New Shipping" res_model="shipping" view_type="form" view_mode="form"/>
+
+<act_window id="act_view_ship_from_pr" name="Shippings" res_model="shipping" src_model="purchase.request" domain="[('pr_id','=',active_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_employee" name="Employees" res_model="employee" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_department" name="Departments" res_model="department" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_section" name="Sections" res_model="section" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_project" name="Projects" res_model="project" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_currency" name="Currencies" res_model="res.currency" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_site" name="Sites" res_model="site" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_eor" name="EORs" res_model="eor" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_pr_type" name="Purchase Request Types" res_model="pr.type" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_invoice" name="Invoices" res_model="invoice" view_type="form" view_mode="tree,form"/>
+
+    <act_window id="act_new_invoice" name="New Invoice" res_model="invoice" view_type="form" view_mode="form"/>
+
+<act_window id="act_view_wkf_state" name="Workflow States" res_model="wkf.state" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_wkf_decision" name="Workflow Decisions" res_model="wkf.decision" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_wkf_role" name="Workflow Roles" res_model="wkf.role" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_wkf_constraint" name="Workflow Constraints" res_model="wkf.constraint" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_update_view" name="Update Interface" res_model="wiz.update.view" view_type="form" view_mode="form" target="new"/>
+
+<act_window id="act_view_user" name="Users" res_model="res.users" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_group" name="Groups" res_model="res.groups" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_model_access" name="Access Control Lists" res_model="ir.model.access" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_rule_group" name="Record Rules" res_model="ir.rule.group" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_view_field_rule" name="Field Rules" res_model="field.rule" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_wiz_create_users" name="Create Users" res_model="wiz.create.users" view_type="form" view_mode="form" target="new"/>
+
+<act_window id="act_wiz_update_travel" name="Update Travel Rates" res_model="wiz.update.travel" view_type="form" view_mode="form" target="new"/>
+
+<act_window id="act_wiz_print_wkf" name="Print Workflow" res_model="wiz.print.wkf" view_type="form" view_mode="form" target="new"/>
+
+<act_window id="act_pr_apc_entry" name="APC Entries" res_model="apc.entry" src_model="purchase.request" domain="[('pr_id','=',active_id)]" view_type="form" view_mode="tree,form"/>
+
+<act_window id="act_tdy_apc_entry" name="APC Entries" res_model="apc.entry" src_model="tdy.request" domain="[('tdy_id','=',active_id)]" view_type="form" view_mode="tree,form"/>
+
+<!--}}}-->
+
+<!--{{{ menus -->
+<menuitem id="menu_purch" name="Purchasing" icon="terp-account" sequence="1"/>
+
+    <menuitem id="menu_purch_config" parent="menu_purch" name="Settings" sequence="0" groups="ac_afrims.group_full_view"/>
+
+        <menuitem id="menu_view_partner" parent="menu_purch_config" action="act_view_partner" sequence="1"/>
+
+        <menuitem id="menu_view_pr_type" parent="menu_purch_config" action="act_view_pr_type" sequence="4"/>
+
+    <menuitem id="menu_my_pr" parent="menu_purch" action="act_my_pr" sequence="1"/>
+
+    <menuitem id="menu_sect_pr" parent="menu_purch" action="act_sect_pr" sequence="2" groups="ac_afrims.group_access_sect"/>
+
+    <menuitem id="menu_dept_pr" parent="menu_purch" action="act_dept_pr" sequence="3" groups="ac_afrims.group_access_dept"/>
+
+        <menuitem id="menu_dept_pr_line" parent="menu_dept_pr" action="act_dept_pr_line" sequence="3" groups="ac_afrims.group_access_dept"/>
+
+    <menuitem id="menu_wait_pr" parent="menu_purch" action="act_wait_pr" sequence="4" groups="ac_afrims.group_approver"/>
+
+    <menuitem id="menu_new_pr" parent="menu_purch" action="act_new_pr" sequence="5"/>
+
+    <menuitem id="menu_pr_report" parent="menu_purch" sequence="6" name="Reports"/>
+
+<menuitem id="menu_travel" name="Travel" icon="terp-calendar" sequence="2"/>
+
+    <menuitem id="menu_trv_config" parent="menu_travel" name="Settings" sequence="0" groups="ac_afrims.group_full_view"/>
+
+        <menuitem id="menu_view_trv_state" parent="menu_trv_config" action="act_view_trv_state" sequence="1"/>
+
+        <menuitem id="menu_view_trv_county" parent="menu_trv_config" action="act_view_trv_county" sequence="2"/>
+
+        <menuitem id="menu_view_trv_locality" parent="menu_trv_config" action="act_view_trv_locality" sequence="3"/>
+
+        <menuitem id="menu_view_trv_rate" parent="menu_trv_config" action="act_view_trv_rate" sequence="4"/>
+
+        <menuitem id="menu_view_trv_place" parent="menu_trv_config" action="act_view_trv_place" sequence="5"/>
+
+        <menuitem id="menu_view_trv_mode" parent="menu_trv_config" action="act_view_trv_mode" sequence="6"/>
+
+        <menuitem id="menu_view_itin_desc" parent="menu_trv_config" action="act_view_itin_desc" sequence="7"/>
+
+        <menuitem id="menu_view_remark_template" parent="menu_trv_config" action="act_view_remark_template" sequence="8"/>
+
+        <menuitem id="menu_view_tdy_categ" parent="menu_trv_config" action="act_view_tdy_categ" sequence="9"/>
+
+        <menuitem id="menu_wiz_update_travel" parent="menu_trv_config" action="act_wiz_update_travel" sequence="10"/>
+
+    <menuitem id="menu_my_tdy" parent="menu_travel" action="act_my_tdy" sequence="1"/>
+
+    <menuitem id="menu_sect_tdy" parent="menu_travel" action="act_sect_tdy" sequence="2" groups="ac_afrims.group_access_sect"/>
+
+    <menuitem id="menu_dept_tdy" parent="menu_travel" action="act_dept_tdy" sequence="3" groups="ac_afrims.group_access_dept"/>
+
+    <menuitem id="menu_wait_tdy" parent="menu_travel" action="act_wait_tdy" sequence="4" groups="ac_afrims.group_approver"/>
+
+    <menuitem id="menu_new_tdy" parent="menu_travel" action="act_new_tdy" sequence="5"/>
+
+    <menuitem id="menu_trv_report" parent="menu_travel" sequence="6" name="Reports"/>
+
+<menuitem id="menu_afrims_budget" name="Budget" sequence="4" icon="terp-sale" groups="ac_afrims.group_full_view"/>
+
+    <menuitem id="menu_budget_config" parent="menu_afrims_budget" name="Settings" sequence="0" groups="ac_afrims.group_full_view"/>
+
+        <menuitem id="menu_view_apc" parent="menu_budget_config" action="act_view_apc" sequence="1"/>
+
+        <menuitem id="menu_view_apc_fy" parent="menu_budget_config" action="act_view_apc_fy" sequence="0"/>
+
+        <menuitem id="menu_view_eor" parent="menu_budget_config" action="act_view_eor" sequence="2"/>
+
+        <menuitem id="menu_view_project" parent="menu_budget_config" action="act_view_project" sequence="3"/>
+
+        <menuitem id="menu_view_currency" parent="menu_budget_config" action="act_view_currency" sequence="4"/>
+
+    <menuitem id="menu_view_apc_entry" parent="menu_afrims_budget" action="act_view_apc_entry" sequence="1"/>
+
+    <menuitem id="menu_view_budget_summary" parent="menu_afrims_budget" action="act_view_budget_summary" sequence="1"/>
+
+    <menuitem id="menu_view_approved_budget_summary" parent="menu_afrims_budget" action="act_view_approved_budget_summary" sequence="98"/>
+
+    <menuitem id="menu_budget_report" parent="menu_afrims_budget" sequence="99" name="Reports"/>
+
+<menuitem id="menu_afrims_stock" name="Stock" sequence="5" icon="terp-product"/>
+
+    <menuitem id="menu_stock_config" parent="menu_afrims_stock" name="Settings" sequence="0" groups="ac_afrims.group_full_view"/>
+
+        <menuitem id="menu_afrims_wh_location" parent="menu_stock_config" sequence="1" action="act_view_wh_location"/>
+
+        <menuitem id="menu_view_product" parent="menu_stock_config" action="act_view_product" sequence="2"/>
+
+    <menuitem id="menu_afrims_wh" parent="menu_afrims_stock" sequence="1" action="act_view_wh"/>
+
+        <menuitem id="menu_avail_item" parent="menu_afrims_wh" sequence="1" action="act_view_avail_item"/>
+
+        <menuitem id="menu_in_item" parent="menu_afrims_wh" sequence="2" action="act_view_in_item"/>
+
+        <menuitem id="menu_out_item" parent="menu_afrims_wh" sequence="3" action="act_view_out_item"/>
+
+        <menuitem id="menu_int_move" parent="menu_afrims_wh" sequence="4" action="act_view_int_move"/>
+
+    <menuitem id="menu_afrims_container" parent="menu_afrims_stock" sequence="2" action="act_view_container"/>
+
+<menuitem id="menu_afrims_ship" name="Shipping" sequence="6" icon="terp-project" groups="ac_afrims.group_shipping"/>
+
+    <menuitem id="menu_ship_config" parent="menu_afrims_ship" name="Settings" sequence="0" groups="ac_afrims.group_full_view"/>
+
+        <menuitem id="menu_view_carrier" parent="menu_ship_config" sequence="1" action="act_view_carrier"/>
+
+    <menuitem id="menu_view_ship" parent="menu_afrims_ship" action="act_view_ship" sequence="1"/>
+
+        <menuitem id="menu_new_ship" parent="menu_view_ship" action="act_new_ship" sequence="1"/>
+
+<menuitem id="menu_afrims_hr" name="Human Resources" sequence="7" icon="terp-partner" groups="ac_afrims.group_full_view"/>
+
+    <menuitem id="menu_view_employee" parent="menu_afrims_hr" action="act_view_employee" sequence="1"/>
+
+    <menuitem id="menu_view_department" parent="menu_afrims_hr" action="act_view_department" sequence="2"/>
+
+    <menuitem id="menu_view_section" parent="menu_afrims_hr" action="act_view_section" sequence="3"/>
+
+    <menuitem id="menu_view_site" parent="menu_afrims_hr" action="act_view_site" sequence="4"/>
+
+<menuitem id="menu_afrims_workflow" name="Workflow" sequence="8" icon="terp-administration" groups="ac_afrims.group_full_view"/>
+
+    <menuitem id="menu_view_wkf_state" parent="menu_afrims_workflow" action="act_view_wkf_state" sequence="1"/>
+
+    <menuitem id="menu_view_wkf_role" parent="menu_afrims_workflow" action="act_view_wkf_role" sequence="2"/>
+
+    <menuitem id="menu_view_wkf_decision" parent="menu_afrims_workflow" action="act_view_wkf_decision" sequence="3"/>
+
+    <menuitem id="menu_view_wkf_constraint" parent="menu_afrims_workflow" action="act_view_wkf_constraint" sequence="4"/>
+
+    <menuitem id="menu_update_view" parent="menu_afrims_workflow" action="act_update_view" sequence="5"/>
+
+    <menuitem id="menu_wiz_print_wkf" parent="menu_afrims_workflow" action="act_wiz_print_wkf" sequence="6" icon="STOCK_PRINT"/>
+
+<menuitem id="menu_access" name="Access Control" sequence="9" icon="terp-purchase" groups="ac_afrims.group_full_view"/>
+
+    <menuitem id="menu_view_user" parent="menu_access" action="act_view_user" sequence="1"/>
+
+    <menuitem id="menu_view_group" parent="menu_access" action="act_view_group" sequence="2"/>
+
+    <menuitem id="menu_view_model_access" parent="menu_access" action="act_view_model_access" sequence="3"/>
+
+    <menuitem id="menu_view_rule_group" parent="menu_access" action="act_view_rule_group" sequence="4"/>
+
+    <menuitem id="menu_view_field_rule" parent="menu_access" action="act_view_field_rule" sequence="5"/>
+
+    <menuitem id="menu_wiz_create_users" parent="menu_access" action="act_wiz_create_users" sequence="6"/>
+
+
+<menuitem id="menu_old" name="Default Menus" icon="STOCK_OPEN" sequence="99" groups="ac_afrims.group_full_view"/>
+    <menuitem id="base.menu_base_partner" parent="menu_old"/>
+    <menuitem id="base.menu_administration" parent="menu_old"/>
+    <menuitem id="product.menu_main_product" parent="menu_old"/>
+    <menuitem id="account.menu_finance" parent="menu_old"/>
+    <menuitem id="stock.menu_stock_root" parent="menu_old"/>
+    <menuitem id="hr.menu_hr_root" parent="menu_old"/>
+    <menuitem id="purchase.menu_purchase_root" parent="menu_old"/>
+    <menuitem id="board.dashboard_menu" parent="menu_old"/>
+<!--}}}-->
+
+</data>
+</openerp>
+
+<!-- vim: set fdm=marker : -->

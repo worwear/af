@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+<record id="view_hq_statment_line_tree" model="ir.ui.view">
+    <field name="name">hq.statement.line.tree</field>
+    <field name="model">hq.statement.line</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Statement Lines">
+
+            <field name="hq_id" invisible="1"/>
+            <field name="fy_id" invisible="1" select="1"/>
+
+            <field name="prl_id" invisible="1"/>
+            <field name="tdy_id" invisible="1"/>
+
+            <field name="desc" select="2"/>
+
+            <field name="project_code" select="1"/>
+            <field name="project_amount" sum="Amt"/>
+            <field name="site" select="1"/>
+
+            <field name="type" select="1" string="PR Type(E)"/>
+
+            <field name="e_requester"/>
+            <field name="e_supplier"/>
+            <field name="name"/>
+            <field name="seq"/>
+            <field name="eor"/>
+
+            <field name="purchase_no"/>
+            <field name="voucher_no"/>
+            <field name="amount" invisible="1"/>
+            <field name="apc"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_hq_statment_line_form" model="ir.ui.view">
+    <field name="name">hq.statement.line.form</field>
+    <field name="model">hq.statement.line</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Statement Lines">
+
+            <field name="hq_id" invisible="1"/>
+            <field name="fy_id" invisible="1"/>
+
+            <field name="prl_id" invisible="1"/>
+            <field name="tdy_id" invisible="1"/>
+
+            <field name="desc"/>
+
+            <field name="project_code"/>
+            <field name="project_amount"/>
+
+            <field name="type" string="PR Type(HQ)" />
+
+            <field name="e_requester"/>
+            <field name="e_supplier"/>
+            <field name="name"/>
+            <field name="seq"/>
+            <field name="eor"/>
+
+            <field name="purchase_no"/>
+            <field name="voucher_no"/>
+            <field name="amount" sum="HQ"/>
+            <field name="apc_id"/>
+            <field name="apc"/>
+        </form>
+    </field>
+</record>
+
+
+
+
+
+
+
+
+
+<!--{{{ e system }}}-->
+<record id="view_e_statment_line_tree" model="ir.ui.view">
+    <field name="name">e.statement.line.tree</field>
+    <field name="model">e.statement.line</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="E-System Statement Lines">
+
+            <field name="hq_id" invisible="1"/>
+            <field name="fy_id" invisible="1" select="1"/>
+
+            <field name="prl_id" invisible="1"/>
+            <field name="tdy_id" invisible="1"/>
+
+            <field name="desc" select="2"/>
+
+            <field name="project_code" select="1"/>
+            <field name="project_amount" sum="Amt"/>
+            <field name="site" select="1"/>
+
+            <field name="type" select="1" string="PR Type(HQ)"/>
+
+            <field name="e_requester"/>
+            <field name="e_supplier"/>
+            <field name="name"/>
+            <field name="seq"/>
+            <field name="eor"/>
+
+            <field name="purchase_no"/>
+            <field name="voucher_no"/>
+            <field name="amount" invisible="1"/>
+
+            <field name="apc"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_e_statment_line_form" model="ir.ui.view">
+    <field name="name">e.statement.line.form</field>
+    <field name="model">e.statement.line</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="E-System Statement Lines">
+
+            <field name="hq_id" invisible="1"/>
+            <field name="fy_id" invisible="1"/>
+
+            <field name="prl_id" invisible="1"/>
+            <field name="tdy_id" invisible="1"/>
+
+            <field name="desc"/>
+
+            <field name="project_code"/>
+            <field name="project_amount"/>
+
+            <field name="type" string="PR Type(E)"/>
+
+            <field name="e_requester"/>
+            <field name="e_supplier"/>
+            <field name="name"/>
+            <field name="seq"/>
+            <field name="eor"/>
+
+            <field name="purchase_no"/>
+            <field name="voucher_no"/>
+            <field name="amount" sum="HQ"/>
+
+            <field name="apc"/>
+        </form>
+    </field>
+</record>
+
+<act_window id="act_view_hq_statement_line_pr"
+    name="HQ Statements Lines : PR" res_model="hq.statement.line" view_type="form" view_mode="tree,form"
+    domain="[('type','!=','TDY'),('mode','=','hq')]"/>
+<act_window id="act_view_hq_statement_line_tdy"
+    name="HQ Statements Lines : TDY" res_model="hq.statement.line" view_type="form" view_mode="tree,form"
+    domain="[('type','=','TDY'),('mode','=','hq')]"/>
+
+<act_window id="act_view_e_statement_line_pr"
+    name="E-System Statements Lines : PR" res_model="e.statement.line" view_type="form" view_mode="tree,form"
+    domain="[('type','!=','TDY'),('mode','=','local')]"/>
+<act_window id="act_view_e_statement_line_tdy"
+    name="E-System Statements Lines : TDY" res_model="e.statement.line" view_type="form" view_mode="tree,form"
+    domain="[('type','=','TDY'),('mode','=','local')]"/>
+<!-- statement line PR,TDY-->
+<menuitem id="menu_hq_statement_line_pr" sequence="10" action="act_view_hq_statement_line_pr" parent="menu_hq_statement"/>
+<menuitem id="menu_hq_statement_line_tdy" sequence="11" action="act_view_hq_statement_line_tdy" parent="menu_hq_statement"/>
+
+<menuitem id="menu_e_statement_line_pr" sequence="10" action="act_view_e_statement_line_pr" parent="menu_e_statement"/>
+<menuitem id="menu_e_statement_line_tdy" sequence="11" action="act_view_e_statement_line_tdy" parent="menu_e_statement"/>
+
+
+</data>
+</openerp>
+
+<!-- vim: set fdm=marker : -->

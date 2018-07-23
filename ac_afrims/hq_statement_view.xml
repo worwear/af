@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+{{{view
+
+{{{ tree
+<record id="view_hq_statment_tree" model="ir.ui.view">
+    <field name="name">hq.statement.tree</field>
+    <field name="model">hq.statement</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Headquarter Statements" colors="red:reconcile_ok==False">
+            <field name="reconcile_ok"/>
+            <field name="fy_id"/>
+            <field name="date"/>
+            <field name="name"/>
+            <field name="seq"/>
+            <field name="type"/>
+            <!--<field name="project"/>-->
+            <field name="site"/>
+            <field name="desc"/>
+            <field name="apc_id"/>
+            <field name="apc_category_id"/>
+            <field name="eor"/>
+            <field name="pc_state"/>
+            <field name="bg_state"/>
+            <field name="purchase_no"/>
+            <field name="voucher_no"/>
+            <field name="amount" sum="Amount"/>
+        </tree>
+    </field>
+</record>
+}}}
+
+{{{ form
+<record id="view_hq_statment_form" model="ir.ui.view">
+    <field name="name">hq.statement.form</field>
+    <field name="model">hq.statement</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Headquarter Statements">
+
+            <group colspan="4" col="4">
+                <group colspan="2" col="4" attrs="{'invisible':[('type','=','TDY')]}">
+                    <field name="prl_id"/>
+                    <field name="manual_prl_id" attrs="{'readonly':[('prl_id','!=',False)]}"/>
+                </group>
+                <group colspan="2" col="4" attrs="{'invisible':[('type','!=','TDY')]}">
+                    <field name="tdy_id"/>
+                    <field name="manual_tdy_id" attrs="{'readonly':[('tdy_id','!=',False)]}"/>
+                </group>
+            </group>
+                <field name="reconcile_ok"/>
+
+            <notebook colspan="4">
+                <page string="Data Imported">
+                    <field name="fy_id"/>
+                    <field name="date"/>
+                    <field name="date_done"/>
+                    <newline/>
+
+                    <field name="pr_no"/>
+                    <field name="name"/>
+
+                    <field name="seq"/>
+                    <field name="type"/>
+
+                    <field name="apc_id"/>
+                    <field name="apc_category_id"/>
+
+                    <group colspan="4" col="4">
+                        <group colspan="2" col="4">
+                            <field name="project" colspan="4"/>
+                            <field name="project_ids" colspan="4" nolabel="1"/>
+                        </group>
+                        <group colspan="2" col="4">
+                            <field name="site"  colspan="4"/>
+                            <field name="site_ids" colspan="4" nolabel="1"/>
+                        </group>
+                    </group>
+
+                    <field name="desc" colspan="4"/>
+                    <field name="eor"/>
+                    <field name="eor_id"/>
+                    <newline/>
+
+                    <field name="pc_state"/>
+                    <field name="bg_state"/>
+
+                    <field name="purchase_no"/>
+                    <field name="voucher_no"/>
+
+                    <field name="amount"/>
+                    <newline/>
+
+                    <field name="partner_name"/>
+                    <field name="partner_ref"/>
+                    <field name="partner_id"/>
+                    <newline/>
+                    <field name="staff_name"/>
+
+                </page>
+                <page string="Similar Result">
+                    <field name="prl_ids" colspan="4"/>
+                    <field name="tdy_ids" colspan="4"/>
+                </page>
+
+            </notebook>
+        </form>
+    </field>
+</record>
+}}}
+}}}
+
+{{{ actions
+<act_window id="act_view_hq_statement" name="HQ Statements" res_model="hq.statement" view_type="form" view_mode="tree,form"
+    domain="[('mode','=','hq')]"/>
+<act_window id="act_view_e_statement" name="E-System Statements" res_model="hq.statement" view_type="form" view_mode="tree,form"
+    domain="[('mode','=','local')]"/>
+
+}}}
+
+{{{ menu
+<menuitem id="menu_hq" name="Data Center" icon="terp-tools" sequence="10"/>
+    <menuitem id="menu_hq_statement" name="HQ Statements" sequence="1" action="act_view_hq_statement" parent="menu_hq"/>
+    <menuitem id="menu_e_statement" sequence="4" action="act_view_e_statement" parent="menu_hq"/>
+
+}}}
+
+</data>
+</openerp>
+
+<!-- vim: set fdm=marker : -->

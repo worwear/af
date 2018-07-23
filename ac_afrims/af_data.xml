@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+
+<record id="seq_type_pr" model="ir.sequence.type">
+    <field name="name">Purchase request</field>
+    <field name="code">purchase.request</field>
+</record>
+
+<record id="seq_pr" model="ir.sequence">
+    <field name="name">Purchase request</field>
+    <field name="code">purchase.request</field>
+    <field name="prefix">PR14-</field>
+    <field name="padding">5</field>
+</record>
+
+<record id="seq_type_tdy" model="ir.sequence.type">
+    <field name="name">TDY request</field>
+    <field name="code">tdy.request</field>
+</record>
+
+<record id="seq_tdy" model="ir.sequence">
+    <field name="name">TDY request</field>
+    <field name="code">tdy.request</field>
+    <field name="prefix">TDY14-</field>
+    <field name="padding">5</field>
+</record>
+
+<record id="seq_type_budget" model="ir.sequence.type">
+    <field name="name">Budget entry</field>
+    <field name="code">budget.entry</field>
+</record>
+
+<record id="seq_budget" model="ir.sequence">
+    <field name="name">Budget entry</field>
+    <field name="code">budget.entry</field>
+    <field name="prefix">BG%(y)s-</field>
+    <field name="padding">5</field>
+</record>
+
+<record id="seq_type_ship" model="ir.sequence.type">
+    <field name="name">Shipping</field>
+    <field name="code">shipping</field>
+</record>
+
+<record id="seq_ship" model="ir.sequence">
+    <field name="name">Shipping</field>
+    <field name="code">shipping</field>
+    <field name="prefix">SH%(y)s-</field>
+    <field name="padding">5</field>
+</record>
+
+<record id="group_full_view" model="res.groups">
+    <field name="name">Full Views</field>
+</record>
+
+<record id="group_access_sect" model="res.groups">
+    <field name="name">Section access</field>
+</record>
+
+<record id="group_access_dept" model="res.groups">
+    <field name="name">Department access</field>
+</record>
+
+<record id="group_approver" model="res.groups">
+    <field name="name">Approver</field>
+</record>
+
+<record id="group_employee_details" model="res.groups">
+    <field name="name">Employee Details</field>
+</record>
+
+<record id="group_purch_admin" model="res.groups">
+    <field name="name">Purchase Admin</field>
+</record>
+
+<record id="group_shipping" model="res.groups">
+    <field name="name">Shipping</field>
+</record>
+
+</data>
+</openerp>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+<record id="view_hq_line_gen_form" model="ir.ui.view">
+    <field name="name">hq.line.gen.form</field>
+    <field name="model">hq.line.gen</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form col="4" string="Generate Data">
+            <group colspan="4" col="4">
+                <separator colspan="2"/>
+                <button name="generate" string="Generate" type="object" icon="gtk-ok"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="action_view_hq_line_gen_hq" model="ir.actions.act_window">
+    <field name="name">Line Generate</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">hq.line.gen</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="context">{'mode':'hq'}</field>
+</record>
+
+<record id="action_view_hq_line_gen_e" model="ir.actions.act_window">
+    <field name="name">Line Generate</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">hq.line.gen</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="context">{'mode':'local'}</field>
+</record>
+
+<menuitem
+    action="action_view_hq_line_gen_hq"
+    id="menu_view_hq_gen_line_hq"
+    parent="menu_hq_statement"
+    sequence="20"/>
+
+<menuitem
+    action="action_view_hq_line_gen_e"
+    id="menu_view_hq_gen_line_e"
+    parent="menu_e_statement"
+    sequence="20"/>
+</data>
+</openerp>
+
+<!-- vim: set fdm=marker : -->

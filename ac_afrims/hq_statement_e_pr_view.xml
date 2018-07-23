@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+<record id="view_e_pr_tree" model="ir.ui.view">
+    <field name="name">pr.e.statement.tree</field>
+    <field name="model">hq.statement.e.pr</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="E-System : PR">
+            <field name="reconcile_ok" invisible="1"  select="1"/>
+            <field name="fy_id" invisible="1"  select="1"/>
+            <field name="e_date" select="1"/>
+            <field name="e_name" select="1"/>
+            <field name="e_type" select="2" />
+            <field name="e_doc_no"  select="1"/>
+            <field name="e_seq" />
+            <field name="project" select="2"/>
+            <field name="e_projects" select="2"/>
+            <field name="site" select="2"/>
+            <field name="e_sites" select="2"/>
+            <field name="e_product"/>
+            <field name="e_desc" select="2"/>
+            <field name="e_eor"  select="2"/>
+            <field name="invoice_ref"  select="2"/>
+            <field name="e_purchase_no"  select="2"/>
+            <field name="e_product_qty" sum="SUM"/>
+            <field name="e_uom_id"/>
+            <field name="e_price_unit" sum="SUM"/>
+            <field name="e_amount" sum="E"/>
+            <field name="e_currency_id"/>
+            <field name="e_apc"  select="2"/>
+            <field name="e_apc_category"/>
+            <field name="e_supplier" select="1"/>
+            <field name="e_state" select="2"/>
+            <field name="e_requester"  select="2"/>
+            <field name="e_section"  select="2"/>
+        </tree>
+    </field>
+</record>
+
+
+action
+<record id="act_view_e_pr" model="ir.actions.act_window">
+    <field name="name">E-System Statements: PR</field>
+    <field name="res_model">hq.statement.e.pr</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('mode','=','local'),('type','!=','TDY')]</field>
+</record>
+    <record id="act_view_e_pr_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_e_pr_tree"/>
+        <field name="act_window_id" ref="act_view_e_pr"/>
+    </record>
+    <!--
+    <record id="act_view_e_pr_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hq_statment_form"/>
+        <field name="act_window_id" ref="act_view_e_pr"/>
+    </record>
+    -->
+
+menu
+<menuitem id="menu_e_statement_pr"  sequence="1" action="act_view_e_pr" parent="menu_e_statement"/>
+
+</data>
+</openerp>
+
+<!-- vim: set fdm=marker : -->
