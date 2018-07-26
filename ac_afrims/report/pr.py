@@ -263,6 +263,8 @@ class report(report_int):
             #vals["field18ah"]+= pr.currency_id.name,
             vals["field18a"]+="%s"%lang.format("%.2f",line.price_unit,grouping=True)+newline
             vals["field18b"]+="%s"%lang.format("%.2f",line.subtotal,grouping=True)+newline
+            #vals["field18a"]+="%s"%lang.format("%.2f",line.price_unit,grouping=True)+newline
+            #vals["field18b"]+="%s"%lang.format("%f",line.subtotal)+newline
             if (line.product_id):
                 vals["field15"]+="%s"%(line.product_id.name_get()[0][1])+"\n"
             else:
